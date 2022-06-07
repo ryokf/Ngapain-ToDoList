@@ -82,14 +82,31 @@ class kegiatan_model extends CI_Controller
     {
         $kegiatan = $data['nama'];
         $username = $data['username'];
+        $lokasi = $data['lokasi'];
+        $tanggal_deadline = $data['tanggal_deadline'];
+        $waktu_deadline = $data['waktu_deadline'];
+        $deskripsi = $data['deskripsi'];
+
+        $tanggal_deadline = explode('-', $tanggal_deadline);
+        $tanggal_deadline = array_reverse($tanggal_deadline);
+        $tanggal_deadline = join('-', $tanggal_deadline);
 
         $tambah = [
             'kegiatan' => $kegiatan,
-            'username' => $username
+            'username' => $username,
+            'lokasi' => $lokasi,
+            'deadline' => $tanggal_deadline . ' | ' . $waktu_deadline,
+            'deskripsi' => $deskripsi
         ];
 
         $this->db->insert('`todolist`', $tambah);
 
+        return $this->db->affected_rows();
+    }
+
+    public function hapus_data($id)
+    {
+        $this->db->delete('`todolist`', ['id' => $id]);
         return $this->db->affected_rows();
     }
 
