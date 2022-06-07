@@ -12,7 +12,7 @@ class Home extends CI_Controller
     public function index()
     {
         if(!isset($_SESSION['login'])){
-            header("Location: http://localhost/ToDoList/login");
+            header("Location: " . base_url('login'));
         }
 
         $data['data_kegiatan'] = $this->kegiatan_model->get_data($_SESSION['login']);
@@ -23,21 +23,21 @@ class Home extends CI_Controller
     public function tambah()
     {
         if( $this->kegiatan_model->tambah_data($_POST) > 0 ){
-            header("Location: http://localhost/ToDoList/home");
+            header("Location: " . base_url('home'));
         }
     }
 
     public function selesai($id)
     {
         if( $this->kegiatan_model->kegiatan_selesai($id) > 0 ){
-            header("Location: http://localhost/ToDoList/home");
+            header("Location: ". base_url('home'));
         }
     }
 
     public function belum_selesai($id)
     {
         if( $this->kegiatan_model->kegiatan_belum_selesai($id) > 0 ){
-            header("Location: http://localhost/ToDoList/home");
+            header("Location: " . base_url('home'));
         }
     }
 }

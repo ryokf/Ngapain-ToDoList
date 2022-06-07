@@ -18,7 +18,7 @@ class Login extends CI_Controller
         if( isset($_POST['submit']) ){
 
             if( $this->kegiatan_model->proses_login($_POST) == true ){
-                header("Location: http://localhost/ToDoList");
+                header("Location: " . base_url());
             }
         }
     }

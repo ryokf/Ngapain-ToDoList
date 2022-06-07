@@ -20,7 +20,7 @@
     <nav class="navbar bg-light">
         <div class="container d-flex justify-content-between">
             <span class="navbar-brand mb-0 h1">To Do List</span>
-            <span><a href="http://localhost/ToDoList/Logout" class="btn btn-danger">logout</a></span>
+            <span><a href="<?= base_url('logout') ?>" class="btn btn-danger">logout</a></span>
         </div>
     </nav>
 
@@ -31,11 +31,11 @@
                 <span><?= $kegiatan['kegiatan'] ?></span>
                 <?php if( $kegiatan['sudah'] == 'true' ): ?>
                 <a class="badge bg-success rounded-pill"
-                    href="http://localhost/ToDoList/home/belum_selesai/<?= $kegiatan['id'] ?>">sudah
+                    href="<?= base_url('home/belum_selesai/') ?><?= $kegiatan['id'] ?>">sudah
                     dikerjakan</a>
                 <?php else: ?>
                 <a class="badge bg-danger rounded-pill"
-                    href="http://localhost/ToDoList/home/selesai/<?= $kegiatan['id'] ?>">belum
+                    href="<?= base_url('home/selesai/') ?><?= $kegiatan['id'] ?>">belum
                     dikerjakan</a>
                 <?php endif ?>
             </li>
@@ -60,7 +60,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="http://localhost/ToDoList/home/tambah" method="post">
+                    <form action="<?= base_url('home/tambah/') ?>" method="post">
                         <div class="mb-3">
                             <label for="nama" class="form-label">Kegiatan</label>
                             <input type="text" class="form-control" id="nama" name="nama">

@@ -20,7 +20,7 @@
     <h1 class="text-center my-5">Login</h1>
 
     <div class="container my-5">
-        <form action="http://localhost/ToDoList/Login/proses" method="post">
+        <form action="<?= base_url('login/proses') ?>" method="post">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" name="username">
@@ -32,7 +32,7 @@
             <button type="submit" class="btn btn-primary" name="submit">login</button>
         </form>
         <p class="my-3">belum punya akun?, silahkan buat akun memlalui link ini <a class="my-3"
-                href="http://localhost/ToDoList/register">register</a></p>
+                href="<?= base_url('register') ?>">register</a></p>
     </div>
 
 

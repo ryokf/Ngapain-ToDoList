@@ -19,7 +19,7 @@ class Register extends CI_Controller
         {
             if ($this->kegiatan_model->proses_register($_POST) > 0)
             {
-                header('Location: http://localhost/ToDoList/Login/');
+                header('Location: ' . base_url('login'));
             }
         }
     }

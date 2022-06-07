@@ -8,7 +8,7 @@ class Logout extends CI_Controller
         session_start();
         session_destroy();
 
-        header("Location: http://localhost/ToDoList/");
+        header("Location: " . base_url());
     }
     
 }
