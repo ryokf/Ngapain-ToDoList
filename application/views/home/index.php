@@ -263,7 +263,8 @@
 
     <nav class="navbar fixed-bottom bg-light">
         <div class="container d-flex justify-content-around">
-            <a class="" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <a class="" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev"
+                data-bs-slide-to="0">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                     class="bi bi-journal-text" viewBox="0 0 16 16">
                     <path
@@ -274,7 +275,8 @@
                         d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z" />
                 </svg>
             </a>
-            <a class="" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <a class="" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next"
+                data-bs-slide-to="1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-search"
                     viewBox="0 0 16 16">
                     <path
