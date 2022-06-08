@@ -7,24 +7,10 @@
     <title>Bootstrap demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <style>
-    a {
-        text-decoration: none;
-    }
-
-    /* .putar: {
-        transform: rotate(180deg) !important;
-    } */
-
-    .text-align-right {
-        text-align: right;
-        font-size: 11px;
-    }
-    </style>
-
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body class="gelap">
     <!-- NAVBAR -->
 
     <nav class="navbar bg-light">
@@ -39,7 +25,7 @@
                         d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
                 </svg></button>
 
-            <div class="offcanvas-sm offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+            <div class="offcanvas-sm offcanvas offcanvas-end setengah" tabindex="-1" id="offcanvasRight"
                 aria-labelledby="offcanvasRightLabel">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasRightLabel">Profil perngguna</h5>
@@ -48,7 +34,12 @@
                 <div class="offcanvas-body">
                     <div class="container">
                         <span>username : <?= $_SESSION['login']; ?></span>
-                        <a href="<?= base_url('logout') ?>" class="btn btn-danger btn-sm d-block">logout</a>
+                        <div class="logout">
+                            <a href="<?= base_url('logout') ?>" class="btn btn-danger btn-sm d-block ">logout</a>
+                        </div>
+                        <div id="tombol-dark" class="btn btn-dark">
+                            dark
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,7 +62,7 @@
 
             <div class="container my-4">
                 <div class="accordion" id="accordionExample">
-                    <div class="accordion-item">
+                    <div class="accordion-item gelap">
                         <?php foreach($data_kegiatan as $kegiatan): ?>
                         <h2 class="accordion-header" id="headingTwo">
                             <?php if( $kegiatan['sudah'] == 'true' ): ?>
@@ -295,10 +286,12 @@
     </script>
 
     <script>
+    alert('<?= 'halo' ?>')
     var myCarousel = document.querySelector('#myCarousel')
     var carousel = new bootstrap.Carousel(myCarousel)
     </script>
 
+    <script src="js/script.js"></script>
 </body>
 
 </html>

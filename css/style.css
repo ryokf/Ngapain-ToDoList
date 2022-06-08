@@ -1,0 +1,46 @@
+:root {
+    --dark: #333;    
+}
+
+/* .bg-light{
+    background-color: var(--dark) !important;
+
+} */
+
+.mode-gelap-bg{
+    background-color: var(--dark);
+    border: 1px solid black;
+}
+
+ a {
+     text-decoration: none;
+ }
+
+ /* .putar: {
+     transform: rotate(180deg) !important;
+ } */
+
+ .text-align-right {
+     text-align: right;
+     font-size: 11px;
+ }
+
+ .logout {
+     position: absolute;
+     display: flex;
+     /* align-items: center; */
+     justify-content: center;
+     bottom: 30px;
+     right: 0;
+     left: 0;
+
+}
+.logout a {
+    height: 35px;
+    width: 13rem;
+    border-radius: 10px;
+}
+
+.setengah {
+    width: 75.1% !important;
+}
