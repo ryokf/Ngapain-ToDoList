@@ -31,30 +31,31 @@
         <div class="container d-flex justify-content-between">
             <span class="navbar-brand mb-0 h1">To Do List</span>
 
-            <!-- Default dropstart button -->
-            <div class="btn-group dropstart">
-                <button type="button" class="btn btn-secondary" data-bs-toggle="dropdown" aria-expanded="false"
-                    id="dropdownMenuButton1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
-                        class="bi bi-person-circle" viewBox="0 0 16 16">
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                        <path fill-rule="evenodd"
-                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                    </svg>
-                </button>
-                <ul class="dropdown-menu">
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                aria-controls="offcanvasRight"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                    fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                    <path fill-rule="evenodd"
+                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                </svg></button>
+
+            <div class="offcanvas-sm offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+                aria-labelledby="offcanvasRightLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasRightLabel">Profil perngguna</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
                     <div class="container">
-                        <span><?= $_SESSION['login']; ?></span>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <a href="<?= base_url('logout') ?>" class="btn btn-danger btn-sm">logout</a>
+                        <span>username : <?= $_SESSION['login']; ?></span>
+                        <a href="<?= base_url('logout') ?>" class="btn btn-danger btn-sm d-block">logout</a>
                     </div>
-                </ul>
+                </div>
             </div>
-            </span>
         </div>
     </nav>
+
+
 
     <!-- AKHIR NAVBAR -->
 
@@ -69,52 +70,120 @@
             <!-- INTI DAFTAR KEGIATAN -->
 
             <div class="container my-4">
-                <?php foreach($data_kegiatan as $kegiatan): ?>
-                <ul class="list-group">
-
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span><?= $kegiatan['kegiatan'] ?></span>
-
-                        <span>
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <?php foreach($data_kegiatan as $kegiatan): ?>
+                        <h2 class="accordion-header" id="headingTwo">
                             <?php if( $kegiatan['sudah'] == 'true' ): ?>
-                            <a class="badge bg-success rounded-pill"
-                                href="<?= base_url('home/belum_selesai/') ?><?= $kegiatan['id'] ?>">selesai</a>
+                            <?php $bg = 'alert-success'; ?>
                             <?php else: ?>
-                            <a class="badge bg-danger rounded-pill"
-                                href="<?= base_url('home/selesai/') ?><?= $kegiatan['id'] ?>">belum
-                                dikerjakan</a>
+                            <?php $bg = 'alert-warning'; ?>
                             <?php endif ?>
+                            <button class="accordion-button collapsed alert <?= $bg ?>" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapseTwo<?= $kegiatan['id'] ?>"
+                                aria-expanded="false" aria-controls="collapseTwo">
+                                <div class="d-flex justify-content-between">
+                                    <span><?= $kegiatan['kegiatan'] ?></span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="collapseTwo<?= $kegiatan['id'] ?>" class="accordion-collapse collapse"
+                            aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <p><b>nama kegiatan: <?= $kegiatan['kegiatan'] ?></b></p>
+                                <p>lokasi : <?= $kegiatan['lokasi'] ?></p>
+                                <p>deadline : <?= $kegiatan['tanggal_deadline'] . '|' . $kegiatan['waktu_deadline'] ?>
+                                </p>
+                                <p>deskripsi : <?= $kegiatan['deskripsi'] ?></p>
+                                <span class="d-flex">
+                                    <!-- edit dan hapus -->
+                                    <a href="<?= base_url('home/hapus') . '/' . $kegiatan['id'] ?>"
+                                        class="btn btn-danger btn-sm mx-1">hapus</a>
+                                    <a href="" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdrop<?= $kegiatan['id'] ?>">edit</a>
+                                    <!-- status  -->
+                                    <?php if( $kegiatan['sudah'] == 'true' ): ?>
+                                    <a class="btn btn-sm bg-success mx-1 text-white"
+                                        href="<?= base_url('home/belum_selesai/') ?><?= $kegiatan['id'] ?>">selesai</a>
+                                    <?php else: ?>
+                                    <a class="btn btn-sm bg-danger mx-1 text-white"
+                                        href="<?= base_url('home/selesai/') ?><?= $kegiatan['id'] ?>">belum
+                                        dikerjakan</a>
+                                    <?php endif ?>
+                                </span>
+                            </div>
+                        </div>
 
-                            <a class="badge bg-info " data-bs-toggle="collapse"
-                                href="#collapseExample<?= $kegiatan['id'] ?>" role="button" aria-expanded="false"
-                                aria-controls="collapseExample">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-caret-down putar" viewBox="0 0 16 16">
-                                    <path
-                                        d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" />
-                                </svg>
-                            </a>
-                        </span>
+                        <!-- Modal edit-->
+                        <div class="modal fade" id="staticBackdrop<?= $kegiatan['id'] ?>" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">edit kegiatan</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
 
-                    </li>
-                </ul>
-                <div class="collapse no-top-border" id="collapseExample<?= $kegiatan['id'] ?>">
-                    <div class="card card-body">
-                        <p><b>nama kegiatan: <?= $kegiatan['kegiatan'] ?></b></p>
-                        <p>lokasi : <?= $kegiatan['lokasi'] ?></p>
-                        <p>deadline : <?= $kegiatan['deadline'] ?></p>
-                        <p>deskripsi : <?= $kegiatan['deskripsi'] ?></p>
-                        <p class="text-align-right"><?= $kegiatan['tanggal'] ?></p>
-                        <span class="d-flex">
-                            <a href="<?= base_url('home/hapus') . '/' . $kegiatan['id'] ?>"
-                                class="btn btn-danger btn-sm mx-1">hapus</a>
-                            <a href="" class="btn btn-warning btn-sm">edit</a>
-                        </span>
+                                    <?php 
+                                    $kegiatan['tanggal_deadline'] = explode('-', $kegiatan['tanggal_deadline']);
+                                    $kegiatan['tanggal_deadline'] = array_reverse($kegiatan['tanggal_deadline']);
+                                    $kegiatan['tanggal_deadline'] = join('-', $kegiatan['tanggal_deadline']);
+                                    ?>
+
+                                    <div class="modal-body">
+                                        <form action="<?= base_url('home/ubah/') ?>" method="post">
+                                            <div class="mb-3">
+                                                <label for="nama" class="form-label">Kegiatan</label>
+                                                <input type="text" class="form-control" id="nama" name="nama"
+                                                    value="<?= $kegiatan['kegiatan'] ?>">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="lokasi" class="form-label">lokasi</label>
+                                                <input type="text" class="form-control" id="lokasi" name="lokasi"
+                                                    value="<?= $kegiatan['lokasi'] ?>">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="" class="form-label">deadline</label>
+                                                <input type="date" class="form-control" id="deadline"
+                                                    name="tanggal_deadline"
+                                                    value="<?= $kegiatan['tanggal_deadline'] ?>">
+                                                <input type="time" class="form-control" id="deadline"
+                                                    name="waktu_deadline" value="<?= $kegiatan['waktu_deadline'] ?>">
+                                            </div>
+                                            <label for="floatingTextarea2">deskripsi kegiatan</label>
+                                            <div class="form-floating">
+                                                <textarea class="form-control my-1" placeholder="Leave a comment here"
+                                                    id="floatingTextarea2" style="height: 100px" name="deskripsi"
+                                                    value="<?= $kegiatan['deskripsi'] ?>"></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="hidden" class="form-control" id="username" name="username"
+                                                    value="<?= $_SESSION['login']; ?>">
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="hidden" class="form-control" id="id" name="id"
+                                                    value="<?= $kegiatan['id'] ?>">
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">kirim</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <?php endforeach; ?>
                     </div>
                 </div>
-                <?php endforeach; ?>
-
             </div>
+
+
+
 
             <!-- AKHIR INTI DAFTAR KEGIATAN -->
 
@@ -140,7 +209,8 @@
                             <form action="<?= base_url('home/tambah/') ?>" method="post">
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Kegiatan</label>
-                                    <input type="text" class="form-control" id="nama" name="nama">
+                                    <input type="text" class="form-control" id="nama" name="nama" maxlength="20">
+                                    <div id="emailHelp" class="form-text">max 20 karakter</div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="lokasi" class="form-label">lokasi</label>
@@ -194,7 +264,7 @@
     <nav class="navbar fixed-bottom bg-light">
         <div class="container d-flex justify-content-around">
             <a class="" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                     class="bi bi-journal-text" viewBox="0 0 16 16">
                     <path
                         d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
@@ -205,7 +275,7 @@
                 </svg>
             </a>
             <a class="" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-search"
                     viewBox="0 0 16 16">
                     <path
                         d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />

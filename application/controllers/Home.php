@@ -34,6 +34,13 @@ class Home extends CI_Controller
         }
     }
 
+    public function ubah()
+    {
+        if( $this->kegiatan_model->ubah_data($_POST) > 0 ){
+            header("Location: ". base_url('home'));
+        }
+    }
+
     public function selesai($id)
     {
         if( $this->kegiatan_model->kegiatan_selesai($id) > 0 ){

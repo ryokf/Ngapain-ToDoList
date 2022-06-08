@@ -95,11 +95,40 @@ class kegiatan_model extends CI_Controller
             'kegiatan' => $kegiatan,
             'username' => $username,
             'lokasi' => $lokasi,
-            'deadline' => $tanggal_deadline . ' | ' . $waktu_deadline,
+            'tanggal_deadline' => $tanggal_deadline,
+            'waktu_deadline' => $waktu_deadline,
             'deskripsi' => $deskripsi
         ];
 
         $this->db->insert('`todolist`', $tambah);
+
+        return $this->db->affected_rows();
+    }
+
+    public function ubah_data($data)
+    {
+        $id = $data['id'];
+        $kegiatan = $data['nama'];
+        $username = $data['username'];
+        $lokasi = $data['lokasi'];
+        $tanggal_deadline = $data['tanggal_deadline'];
+        $waktu_deadline = $data['waktu_deadline'];
+        $deskripsi = $data['deskripsi'];
+
+        $tanggal_deadline = explode('-', $tanggal_deadline);
+        $tanggal_deadline = array_reverse($tanggal_deadline);
+        $tanggal_deadline = join('-', $tanggal_deadline);
+
+        $ubah = [
+            'kegiatan' => $kegiatan,
+            'username' => $username,
+            'lokasi' => $lokasi,
+            'tanggal_deadline' => $tanggal_deadline,
+            'waktu_deadline' => $waktu_deadline,
+            'deskripsi' => $deskripsi
+        ];
+
+        $this->db->where('id', $id)->update('`todolist`', $ubah);
 
         return $this->db->affected_rows();
     }
