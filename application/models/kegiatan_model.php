@@ -7,6 +7,33 @@ class kegiatan_model extends CI_Controller
         return $this->db->where('username', $user)->get('`todolist`')->result_array();
     }
 
+    public function get_data_gelap($user)
+    {
+        return $this->db->where('username', $user)->select('gelap')->get('`user`')->result_array();
+    }
+
+    public function atur_mode_gelap($data)
+    {
+        $username = $data['username'];
+        $gelap = $data['gelap'];
+
+        $mode_gelap = [
+            'username' => $username,
+            'gelap' => $gelap
+        ];
+
+        $this->db->where('username', $username)->update('`user`', $mode_gelap);
+
+        return $this->db->affected_rows();
+    }
+
+    public function cari_data($keyword = '')
+    {
+        $username = $_SESSION['login'];
+
+        return $this->db->like('kegiatan', "{$keyword}")->where('username', "{$username}")->get('`todolist`')->result_array();
+    }
+
     public function proses_login($data)
     {
         session_start();
@@ -69,11 +96,6 @@ class kegiatan_model extends CI_Controller
         ];
 
         $this->db->insert('`user`', $data);
-
-        #tambah user ke database
-        // $this->db->query("INSERT INTO user 
-        //                     VALUES
-        //                     ('', '$username', '$password')");
 
         return $this->db->affected_rows();
     }

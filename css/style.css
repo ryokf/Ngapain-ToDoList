@@ -10,10 +10,23 @@
 .mode-gelap-bg{
     background-color: var(--dark);
     border: 1px solid black;
+    /* color: white !important; */
+}
+
+.img-profile-canvas{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.no-btn{
+    border: none;
+    background-color: inherit;
 }
 
  a {
      text-decoration: none;
+     /* color: black !important; */
  }
 
  /* .putar: {
@@ -26,13 +39,13 @@
  }
 
  .logout {
-     position: absolute;
+     /* position: absolute;
      display: flex;
-     /* align-items: center; */
+     align-items: center;-------
      justify-content: center;
      bottom: 30px;
      right: 0;
-     left: 0;
+     left: 0; */
 
 }
 .logout a {
@@ -42,5 +55,39 @@
 }
 
 .setengah {
-    width: 75.1% !important;
+    width: 75% !important;
 }
+
+.img-card{
+    border-radius: 50% !important; 
+    width: 80px !important;
+    object-fit: cover;
+    height: 80px !important;
+}
+
+.wadah-img-card{
+    /* width: 100%;
+    height: 100px;
+    overflow:hidden;
+    object-fit:contain; */
+}
+
+.card-text-profile{
+    font-size: 12px !important;
+}
+
+.card{
+    border-radius: 30px !important;
+}
+
+/* .bg-dark{
+    border-bottom-left-radius: 20px !important;
+    border-bottom-right-radius: 20px !important;
+    border-radius: 20px;
+}
+
+.bg-light{
+    border-bottom-left-radius: 20px !important;
+    border-bottom-right-radius: 20px !important;
+    border-radius: 20px;
+} */

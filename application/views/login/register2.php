@@ -24,19 +24,26 @@
 </head>
 
 <body>
-    <h1 class="text-center mt-5">Buat Username Anda</h1>
+    <h1 class="text-center mt-5">Buat password Anda</h1>
 
-    <p class="text-center mt-3">Username anda akan terlihat sebagai identitas utama anda yang tidak bisa dimilki
-        pengguna lain</p>
+    <p class="text-center mt-3">Usahakan Password anda sulit ditebak orang lain, jangan gunakan informasi pribadi
+        sebagai password</p>
 
     <div class="container my-5">
-        <form action="<?= base_url('register/index2') ?>" method="post">
+        <form action="<?= base_url('register/proses') ?>" method="post">
+            <div class="mb-3">
+                <input type="hidden" class="form-control" id="password" name="username"
+                    value="<?= $_POST['username'] ?>">
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
             <div class="mb-3 text-center">
-                <label for="username" class="form-label ">Username tidak boleh mengandung spasi</label>
-                <input type="text" class="form-control" id="username" name="username">
+                <label for="username" class="form-label">konfirmasi password anda</label>
+                <input type="text" class="form-control" id="username" name="password2">
             </div>
             <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary" name="submit">selanjutnya</button>
+                <button type="submit" class="btn btn-primary" name="submit">login sekarang</button>
             </div>
         </form>
         <p class="my-3 link-register">sudah punya akun?, silahkan masuk melalui link ini <a class="my-3"

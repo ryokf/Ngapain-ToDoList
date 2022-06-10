@@ -1,23 +1,16 @@
-// alert('hai')
+let input_ajax = document.getElementById('input_cari_ajax')
+let container_ajax = document.getElementById('container_search_ajax')
 
-let gelap = document.querySelector('#tombol-dark')
-let body = document.querySelector('.gelap')
-let accordion = document.querySelector('.accordion-item')
-let navigasi = document.querySelector('.bg-light')
-let teks_nav = document.querySelector('.navbar-brand')
-let teks_list = document.querySelectorAll('.accordion-body')
+input_ajax.addEventListener('keyup', function(){
 
-gelap.addEventListener('click', function(){
+    let xhr = new XMLHttpRequest()
 
-    body.classList.toggle('mode-gelap-bg')
-    accordion.classList.toggle('mode-gelap-bg')
-    // accordion.classList.toggle('mode-gelap-bg')
-    navigasi.classList.toggle('bg-dark')
-    teks_nav.classList.toggle('text-white')
-    for(let i = 0; i < teks_list.length; i++){
-        teks_list[i].classList.toggle('text-white')
+    xhr.onreadystatechange = function(){
+        if( xhr.readyState == 4 && xhr.status == 200 ){
+            container_ajax.innerHTML = xhr.response
+        }
     }
-    
 
+    xhr.open('post', 'http://localhost/ToDoList/home/cari/' + input_ajax.value, true)
+    xhr.send()
 })
-

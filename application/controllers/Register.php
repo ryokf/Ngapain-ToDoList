@@ -13,6 +13,11 @@ class Register extends CI_Controller
         $this->load->view('login/register');
     }
 
+    public function index2()
+    {
+        $this->load->view('login/register2');
+    }
+    
     public function proses()
     {
         if( isset($_POST['submit']) )
@@ -24,4 +29,5 @@ class Register extends CI_Controller
         }
     }
     
+   
 }
