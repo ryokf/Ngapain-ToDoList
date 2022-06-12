@@ -10,12 +10,12 @@ class Register extends CI_Controller
 
     public function index()
     {
-        $this->load->view('login/register');
+        $this->load->view('akun/register');
     }
 
     public function index2()
     {
-        $this->load->view('login/register2');
+        $this->load->view('akun/register2');
     }
     
     public function proses()

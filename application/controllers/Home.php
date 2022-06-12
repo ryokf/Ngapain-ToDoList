@@ -59,7 +59,7 @@ class Home extends CI_Controller
         $data['data_kegiatan'] = $this->kegiatan_model->cari_data($keyword);
         $data['data_gelap'] = $this->kegiatan_model->get_data_gelap($_SESSION['login']);
 
-        $this->load->view('home/hasil_ajax', $data);
+        $this->load->view('home/cari_kegiatan', $data);
     }
 
     public function selesai($id)

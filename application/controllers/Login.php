@@ -15,7 +15,7 @@ class Login extends CI_Controller
             header("Location: " . base_url('home'));
         }
 
-        $this->load->view('login/index');
+        $this->load->view('akun/login');
     }
 
     public function proses()

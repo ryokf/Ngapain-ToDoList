@@ -2,6 +2,7 @@
 
 class kegiatan_model extends CI_Controller
 {
+
     public function get_data($user)
     {
         return $this->db->where('username', $user)->get('`todolist`')->result_array();
@@ -37,7 +38,7 @@ class kegiatan_model extends CI_Controller
     public function proses_login($data)
     {
         session_start();
-
+        
         $username = $data['username'];
         $password = $data['password'];
 
@@ -181,5 +182,12 @@ class kegiatan_model extends CI_Controller
         $this->db->where('id', $id)->update('`todolist`', $tambah);
 
         return $this->db->affected_rows();
+    }
+
+    public function cari_data_pengguna($username = '')
+    {
+        // $username = $_SESSION['login'];
+
+        return $this->db->like('username', "{$username}")->get('`user`')->result_array();
     }
 }

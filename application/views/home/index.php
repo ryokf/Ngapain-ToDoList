@@ -11,7 +11,9 @@
 </head>
 
 <body class="gelap">
-    <!-- NAVBAR -->
+
+    <!-- NAVBAR=============================================================================================================== -->
+
     <nav class="navbar bg-light">
         <div class="container d-flex justify-content-between">
             <span class="navbar-brand mb-0 h1">To Do List</span>
@@ -36,12 +38,16 @@
                 <div class="offcanvas-body">
                     <div class="container py-5">
                         <div class="my-5 display-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
-                                class="bi bi-person" viewBox="0 0 16 16">
-                                <path
-                                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
-                            </svg>
-                            <span class="mx-3">profile</span>
+                            <a href="<?=
+                              base_url('profil/index/')//  . $_SESSION['login'] 
+                             ?>" class="text-dark">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                                    class="bi bi-person" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                                </svg>
+                                <span class="mx-3">profile</span>
+                            </a>
                         </div>
                         <div class="my-5">
                             <form action="<?= base_url('home/mode_gelap') ?>" method="POST">
@@ -73,10 +79,6 @@
                                 // base_url('logout') 
                                 ?>" class="btn btn-danger btn-sm d-block">logout</a> -->
                         </div>
-
-
-
-
                         <!-- <div id="tombol-dark" class="btn btn-dark">
                             dark
                         </div> -->
@@ -86,30 +88,81 @@
         </div>
     </nav>
 
-    <!-- AKHIR NAVBAR -->
+    <!-- AKHIR NAVBAR ===========================================================================================================-->
 
-    <!-- INTI APLIKASI -->
+    <?php 
+
+    $tanggal_kegiatan = [];
+    foreach($data_kegiatan as $kegiatan){
+        array_push($tanggal_kegiatan, $kegiatan['tanggal_deadline']);
+    }
+     
+    $tanggal_kegiatan = array_unique($tanggal_kegiatan);
+    // $i = 0;
+    // foreach($tanggal_kegiatan as $kegiatan){
+    //     $kegiatan = explode('-', $kegiatan);
+    //     $jumlah[$i] = array_sum($kegiatan);
+        
+    //     // print_r($jumlah);
+    //     $i++;
+    //     // print_r($kegiatan);
+    //     // for($i = 0; $i < count($kegiatan) - 1; $i++){
+    //     //     echo $kegiatan[$i] . '+' . $kegiatan[$i+1] . '=';
+    //     //     $kegiatan[$i] = $kegiatan[$i] + $kegiatan[$i+1];
+    //     // }
+    //     // print_r($kegiatan);
+    //     // echo $kegiatan;
+    //     // echo count($kegiatan) . '<br>';
+    //     // foreach($kegiatan as $ubah_int){
+    //     //     // $ubah_int += $ubah_int;
+    //     //     print_r($ubah_int);
+    //         echo '<br>';
+    //     // }   
+    // }
+
+    // var_dump($jumlah);
+    
+    ?>
+
+    <!-- INTI APLIKASI ===========================================================================================================-->
 
     <div id="carouselExampleControls" class="carousel slide" data-bs-touch="true" data-bs-interval="false">
 
-        <!-- DAFATR KEGIATAN -->
+        <!-- DAFTAR KEGIATAN====================================================================================================== -->
 
         <div class="carousel-item active">
 
-            <!-- INTI DAFTAR KEGIATAN -->
-
             <div class="container my-4">
 
-                <div class="input-group mb-3">
+                <div class="input-group mb-4">
                     <input type="text" class="form-control" placeholder="cari kegiatan anda"
                         aria-label="Recipient's username" aria-describedby="basic-addon2" id="input_cari_ajax">
                     <span class="input-group-text" id="basic-addon2">cari</span>
                 </div>
 
+                <!-- tombol tambah -->
+                <div class="d-flex justify-content-start mb-3">
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-plus-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                        </svg>
+                    </button>
+                </div>
+
                 <div id="container_search_ajax">
                     <div class="accordion" id="accordionExample">
+                        <?php foreach($tanggal_kegiatan as $tanggal): ?>
+
+                        <h5 class="mt-3"><?= $tanggal ?></h5>
+                        <?php foreach($data_kegiatan as $kegiatan): ?>
+
+                        <?php if( $kegiatan['tanggal_deadline'] == $tanggal ): ?>
+
                         <div class="accordion-item gelap">
-                            <?php foreach($data_kegiatan as $kegiatan): ?>
+
                             <h2 class="accordion-header" id="headingTwo">
                                 <?php if( $kegiatan['sudah'] == 'true' ): ?>
                                 <?php $bg = 'alert-success'; ?>
@@ -129,8 +182,8 @@
                                 <div class="accordion-body">
                                     <p><b>nama kegiatan: <?= $kegiatan['kegiatan'] ?></b></p>
                                     <p>lokasi : <?= $kegiatan['lokasi'] ?></p>
-                                    <p>deadline :
-                                        <?= $kegiatan['tanggal_deadline'] . '|' . $kegiatan['waktu_deadline'] ?>
+                                    <p>waktu :
+                                        <?= $kegiatan['tanggal_deadline'] . ' | ' . $kegiatan['waktu_deadline'] ?>
                                     </p>
                                     <p>deskripsi : <?= $kegiatan['deskripsi'] ?></p>
                                     <span class="d-flex">
@@ -152,7 +205,7 @@
                                 </div>
                             </div>
 
-                            <!-- Modal edit-->
+                            <!-- edit kegiatan-->
                             <div class="modal fade" id="staticBackdrop<?= $kegiatan['id'] ?>" data-bs-backdrop="static"
                                 data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
                                 aria-hidden="true">
@@ -195,8 +248,8 @@
                                                 <div class="form-floating">
                                                     <textarea class="form-control my-1"
                                                         placeholder="Leave a comment here" id="floatingTextarea2"
-                                                        style="height: 100px" name="deskripsi"
-                                                        value="<?= $kegiatan['deskripsi'] ?>"></textarea>
+                                                        style="height: 100px"
+                                                        name="deskripsi"><?= $kegiatan['deskripsi'] ?></textarea>
                                                 </div>
                                                 <div class="mb-3">
                                                     <input type="hidden" class="form-control" id="username"
@@ -216,23 +269,16 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <?php endforeach; ?>
                         </div>
+                        <?php endif ?>
+                        <?php endforeach ?>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
 
-            <!-- AKHIR INTI DAFTAR KEGIATAN -->
-
-            <!-- TAMBAH KEGIATAN -->
-
-            <div class="d-flex justify-content-center">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    tambah kegiatan
-                </button>
-            </div>
-
+            <br>
+            <!-- tambah kegiatan -->
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -276,50 +322,36 @@
                 </div>
             </div>
 
-            <!-- AKHIR TAMBAH KEGIATAN -->
-
         </div>
 
-        <!-- AKHIR DAFATR KEGIATAN -->
+        <!-- AKHIR DAFATR KEGIATAN=========================================================================================== -->
 
-        <!-- PENCARIAN -->
+        <!-- PENCARIAN ==========================================================================================================-->
 
         <div class="carousel-item">
 
-            <div class="input-group mb-3 my-4 container">
-                <input type="text" class="form-control" placeholder="cari pengguna" aria-label="Recipient's username"
-                    aria-describedby="basic-addon2" id="cari_user">
-                <span class="input-group-text" id="basic-addon2">cari</span>
+            <div class="my-4 container">
+                <form action="<?= base_url('cari_pengguna/index')  ?>" method="post">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="cari pengguna"
+                            aria-label="Recipient's username" aria-describedby="basic-addon2" id="cari_user"
+                            name="user">
+                        <button class="input-group-text" type="submit" id="basic-addon2">cari</button>
+                </form>
             </div>
 
-            <div class="container d-flex justify-content-evenly">
-                <div class="card" style="width: 45%; height: 45%;">
-                    <div class=" d-flex justify-content-center mt-2">
-                        <img src="https://assets.digitalocean.com/articles/alligator/css/object-fit/example-object-fit.jpg"
-                            class="card-img-top img-card" alt="...">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text card-text-profile">Some quick example text to build on the card title and
-                            make up the bulk</p>
-                        <a href="#" class="btn btn-primary btn-sm">Kunjungi</a>
-                    </div>
-                </div>
-                <div class="card" style="width: 45%; height: 45%;">
-                    <div class=" d-flex justify-content-center mt-2">
-                        <img src="https://images.unsplash.com/photo-1606946887361-78feb162a525?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm90b3xlbnwwfHwwfHw%3D&w=1000&q=80"
-                            class="card-img-top img-card" alt="...">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text card-text-profile">Some quick example text to build on the card title and
-                            make up the bulk</p>
-                        <a href="#" class="btn btn-primary btn-sm">Kunjungi</a>
-                    </div>
-                </div>
-
+            <div id="container_cari_pengguna">
+                <h1 class="display-4 text-center my-5">cari pengguna lain untuk melakukan kegiatan bersama</h1>
             </div>
-            <!--  <div class="container">
+
+        </div>
+
+    </div>
+
+    <!-- PENCARIAN ==========================================================================================================-->
+
+
+    <!--  <div class="container">
                 https://images.unsplash.com/photo-1606946887361-78feb162a525?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm90b3xlbnwwfHwwfHw%3D&w=1000&q=80"
                 <h1 class="my-3 text-center gelap">cari kegiatan</h1>
                 <div class="input-group mb-3">
@@ -330,31 +362,42 @@
             </div>
         </div>
 
-        <div id="container-search" class="container"> -->
+        <div id="container-search" class="container"> 
 
-        </div>
+        </div>-->
 
-        <div class="carousel-item">
-            <h1>hal beranda</h1>
+    <div class="carousel-item">
 
-        </div>
-
-        <div class="carousel-item">
-            <h1>hal chat</h1>
-
-        </div>
-
-        <div class="carousel-item">
-            <h1>hal notif</h1>
-
+        <div class="card" style="width: 18rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                    card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
         </div>
 
     </div>
 
+    <div class="carousel-item">
+        <div class="d-flex justify-content-center align-content-center my-5 py-5">
+            <h1 class="display-2">segera hadir</h1>
+        </div>
+    </div>
+
+    <div class="carousel-item">
+        <div class="d-flex justify-content-center align-content-center my-5 py-5">
+            <h1 class="display-2">segera hadir</h1>
+        </div>
+    </div>
+
+
+
+
     <nav class="navbar fixed-bottom bg-light">
         <div class="container d-flex justify-content-around">
-            <a class="" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev"
-                data-bs-slide-to="0">
+            <a class="" type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="0">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                     class="bi bi-journal-text" viewBox="0 0 16 16">
                     <path
@@ -365,16 +408,14 @@
                         d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z" />
                 </svg>
             </a>
-            <a class="" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next"
-                data-bs-slide-to="1">
+            <a class="" type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-search"
                     viewBox="0 0 16 16">
                     <path
                         d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                 </svg>
             </a>
-            <a class="" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next"
-                data-bs-slide-to="2">
+            <a class="" type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-house"
                     viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -383,8 +424,7 @@
                         d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
                 </svg>
             </a>
-            <a class="" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next"
-                data-bs-slide-to="3">
+            <a class="" type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-chat"
                     viewBox="0 0 16 16">
                     <path
