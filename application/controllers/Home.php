@@ -15,8 +15,16 @@ class Home extends CI_Controller
             header("Location: " . base_url('login'));
         }
 
+        $data['data_pribadi'] = $this->kegiatan_model->get_data_pribadi($_SESSION['login']);
         $data['data_kegiatan'] = $this->kegiatan_model->get_data($_SESSION['login']);
         $data['data_gelap'] = $this->kegiatan_model->get_data_gelap($_SESSION['login']);
+
+        // if( $data['data_kegiatan'] == [] ){
+        //     $this->load->view('home/default', $data);
+        // }
+        // else{
+        //     $this->load->view('home/index', $data);
+        // }
 
         $this->load->view('home/index', $data);
     }
@@ -59,7 +67,14 @@ class Home extends CI_Controller
         $data['data_kegiatan'] = $this->kegiatan_model->cari_data($keyword);
         $data['data_gelap'] = $this->kegiatan_model->get_data_gelap($_SESSION['login']);
 
-        $this->load->view('home/cari_kegiatan', $data);
+        if( $data['data_kegiatan'] == [] ){
+            $this->load->view('home/default', $data);
+        }
+        else{
+            $this->load->view('home/cari_kegiatan', $data);
+        }
+
+        // $this->load->view('home/cari_kegiatan', $data);
     }
 
     public function selesai($id)

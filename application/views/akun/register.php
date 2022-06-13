@@ -24,16 +24,16 @@
 </head>
 
 <body>
-    <h1 class="text-center mt-5">Buat Username Anda</h1>
+    <h1 class="text-center mt-5">Buat email Anda</h1>
 
-    <p class="text-center mt-3">Username anda akan terlihat sebagai identitas utama anda yang tidak bisa dimilki
-        pengguna lain</p>
+    <p class="text-center mt-3"></p>
 
     <div class="container my-5">
         <form action="<?= base_url('register/index2') ?>" method="post">
             <div class="mb-3 text-center">
-                <label for="username" class="form-label ">Username tidak boleh mengandung spasi</label>
-                <input type="text" class="form-control" id="username" name="username">
+                <label for="email" class="form-label ">harap masukkan email yang valid karena setelah pembuatan akun
+                    email tidak dapat dirubah</label>
+                <input type="text" class="form-control" id="email" name="email">
             </div>
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary" name="submit">selanjutnya</button>

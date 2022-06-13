@@ -61,20 +61,30 @@
     </nav>
 
     <section class="sec-1 d-flex justify-content-center flex-wrap flex-column mt-4 mb-2 container">
-        <img src="<?= base_url('img/fotoDefault.jpg') ?>" alt="" class="my-2">
+        <?php foreach($data_pribadi as $pribadi): ?>
 
-        <h1 class="display-2 text-center text-dark"><b><?= $_SESSION['login'] ?></b></h1>
-        <p class="text-center text-secondary">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Culpa, sint!</p>
+        <?php 
+            if( $pribadi['username'] == $_SESSION['login'] ){
+                $pribadi['username'] = explode('@', $_SESSION['login']);
+                $pribadi['username'] = $pribadi['username'][0];
+                // var_dump($pribadi['username']);
+            } 
+            ?>
+
+        <img src="<?= base_url('img/pp_user/') . $pribadi['foto'] ?>" alt="" class="my-2">
+
+        <h1 class="display-2 text-center text-dark"><b><?= $pribadi['username'] ?></b></h1>
+        <p class="text-center text-secondary"><?= $pribadi['bio'] ?></p>
         <div class="d-flex justify-content-evenly flex-wrap">
             <h5>
-                <span class="badge rounded-pill text-bg-secondary">
+                <div class="badge rounded-pill text-bg-secondary">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-telephone" viewBox="0 0 16 16">
                         <path
                             d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
                     </svg>
-                    089647767389
-                </span>
+                    <?= $pribadi['telp'] ?>
+                </div>
             </h5>
             <h5>
                 <span class="badge rounded-pill text-bg-secondary">
@@ -83,10 +93,12 @@
                         <path
                             d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
                     </svg>
-                    owi123@gmail.com
+                    <?= $_SESSION['login'] ?>
                 </span>
             </h5>
         </div>
+
+
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Edit Profile
@@ -102,32 +114,41 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form action="<?= base_url('profil/edit') ?>" method="POST" enctype="multipart/form-data">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp">
-                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
-                                </div>
+                                <input type="hidden" class="form-control" id="username" value="<?= $pribadi['id'] ?>"
+                                    name="id">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username"
+                                    value="<?= $pribadi['username'] ?>" name="username">
                             </div>
-                            <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                            <div class="mb-3">
+                                <label for="telp" class="form-label">telp</label>
+                                <input type="text" class="form-control" id="telp" value="<?= $pribadi['telp'] ?>"
+                                    name="telp">
                             </div>
-
+                            <label for="floatingTextarea2">bio</label>
+                            <div class="form-floating">
+                                <textarea class="form-control my-1" placeholder="Leave a comment here" name="bio"
+                                    id="floatingTextarea2" style="height: 100px"
+                                    name="deskripsi"><?= $pribadi['bio'] ?></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="foto" class="form-label">foto</label>
+                                <input type="file" class="form-control" id="foto" name="foto">
+                            </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Understood</button>
+                        <button type="submit" class="btn btn-primary">Understood</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+        <?php endforeach ?>
     </section>
 
 
@@ -177,83 +198,16 @@
                         </p>
                         <p>deskripsi : <?= $kegiatan['deskripsi'] ?></p>
                         <span class="d-flex">
-                            <!-- edit dan hapus -->
-                            <a href="<?= base_url('home/hapus') . '/' . $kegiatan['id'] ?>"
-                                class="btn btn-danger btn-sm mx-1">hapus</a>
-                            <a href="" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop<?= $kegiatan['id'] ?>">edit</a>
                             <!-- status  -->
                             <?php if( $kegiatan['sudah'] == 'true' ): ?>
-                            <a class="btn btn-sm bg-success mx-1 text-white"
-                                href="<?= base_url('home/belum_selesai/') ?><?= $kegiatan['id'] ?>">selesai</a>
+                            <span class="btn btn-sm bg-success mx-1 text-white">selesai</span>
                             <?php else: ?>
-                            <a class="btn btn-sm bg-danger mx-1 text-white"
-                                href="<?= base_url('home/selesai/') ?><?= $kegiatan['id'] ?>">belum
-                                dikerjakan</a>
+                            <span class="btn btn-sm bg-danger mx-1 text-white"> belum dikerjakan</span>
                             <?php endif ?>
                         </span>
                     </div>
                 </div>
 
-                <!-- edit kegiatan-->
-                <div class="modal fade" id="staticBackdrop<?= $kegiatan['id'] ?>" data-bs-backdrop="static"
-                    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">edit kegiatan</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-
-                            <?php 
-                                    $kegiatan['tanggal_deadline'] = explode('-', $kegiatan['tanggal_deadline']);
-                                    $kegiatan['tanggal_deadline'] = array_reverse($kegiatan['tanggal_deadline']);
-                                    $kegiatan['tanggal_deadline'] = join('-', $kegiatan['tanggal_deadline']);
-                                    ?>
-
-                            <div class="modal-body">
-                                <form action="<?= base_url('home/ubah/') ?>" method="post">
-                                    <div class="mb-3">
-                                        <label for="nama" class="form-label">Kegiatan</label>
-                                        <input type="text" class="form-control" id="nama" name="nama"
-                                            value="<?= $kegiatan['kegiatan'] ?>">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="lokasi" class="form-label">lokasi</label>
-                                        <input type="text" class="form-control" id="lokasi" name="lokasi"
-                                            value="<?= $kegiatan['lokasi'] ?>">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="" class="form-label">deadline</label>
-                                        <input type="date" class="form-control" id="deadline" name="tanggal_deadline"
-                                            value="<?= $kegiatan['tanggal_deadline'] ?>">
-                                        <input type="time" class="form-control" id="deadline" name="waktu_deadline"
-                                            value="<?= $kegiatan['waktu_deadline'] ?>">
-                                    </div>
-                                    <label for="floatingTextarea2">deskripsi kegiatan</label>
-                                    <div class="form-floating">
-                                        <textarea class="form-control my-1" placeholder="Leave a comment here"
-                                            id="floatingTextarea2" style="height: 100px"
-                                            name="deskripsi"><?= $kegiatan['deskripsi'] ?></textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <input type="hidden" class="form-control" id="username" name="username"
-                                            value="<?= $_SESSION['login']; ?>">
-                                    </div>
-                                    <div class="mb-3">
-                                        <input type="hidden" class="form-control" id="id" name="id"
-                                            value="<?= $kegiatan['id'] ?>">
-                                    </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">kirim</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <?php endif ?>
             <?php endforeach ?>

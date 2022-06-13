@@ -24,6 +24,7 @@ let container_cari_user = document.getElementById('container_cari_pengguna')
 // container_cari_user.innerHTML = 'hai'
 
 input_cari_user.addEventListener('keyup', function(){
+
     let xhr = new XMLHttpRequest()
 
     xhr.onreadystatechange = function(){

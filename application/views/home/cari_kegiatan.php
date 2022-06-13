@@ -98,7 +98,7 @@ else{
                                     value="<?= $kegiatan['deskripsi'] ?>"></textarea>
                             </div>
                             <div class="mb-3">
-                                <input type="hidden" class="form-control" id="username" name="username"
+                                <input type="hidden" class="form-control" id="email" name="email"
                                     value="<?= $_SESSION['login']; ?>">
                             </div>
                             <div class="mb-3">

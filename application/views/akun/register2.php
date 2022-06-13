@@ -32,15 +32,14 @@
     <div class="container my-5">
         <form action="<?= base_url('register/proses') ?>" method="post">
             <div class="mb-3">
-                <input type="hidden" class="form-control" id="password" name="username"
-                    value="<?= $_POST['username'] ?>">
+                <input type="hidden" class="form-control" id="password" name="email" value="<?= $_POST['email'] ?>">
             </div>
             <div class="mb-3">
                 <input type="password" class="form-control" id="password" name="password">
             </div>
             <div class="mb-3 text-center">
-                <label for="username" class="form-label">konfirmasi password anda</label>
-                <input type="text" class="form-control" id="username" name="password2">
+                <label for="email" class="form-label">konfirmasi password anda</label>
+                <input type="text" class="form-control" id="email" name="password2">
             </div>
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary" name="submit">login sekarang</button>

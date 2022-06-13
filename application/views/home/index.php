@@ -30,8 +30,9 @@
                 <div class="offcanvas-header">
 
                     <h5 class="offcanvas-title" id="offcanvasRightLabel">
-                        <img src="img/fotoDefault.jpg" alt="" class="img-profile-canvas">
-                        <?= $_SESSION['login']; ?>
+                        <img src="img/pp_user/<?= $data_pribadi[0]['foto'] ?>" alt="<?= $data_pribadi[0]['foto'] ?>"
+                            class="img-profile-canvas">
+                        <?= $data_pribadi[0]['username'] ?>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
@@ -52,7 +53,7 @@
                         <div class="my-5">
                             <form action="<?= base_url('home/mode_gelap') ?>" method="POST">
                                 <div class="mb-3">
-                                    <input type="hidden" class="form-control" id="username" name="username"
+                                    <input type="hidden" class="form-control" id="email" name="email"
                                         value="<?= $_SESSION['login']; ?>">
                                     <input type="hidden" class="form-control" id="nama" name="gelap"
                                         <?php if( $data_gelap[0]['gelap'] == 'true' ): ?> value="<?= 'false' ?>"
@@ -136,7 +137,7 @@
 
                 <div class="input-group mb-4">
                     <input type="text" class="form-control" placeholder="cari kegiatan anda"
-                        aria-label="Recipient's username" aria-describedby="basic-addon2" id="input_cari_ajax">
+                        aria-label="Recipient's email" aria-describedby="basic-addon2" id="input_cari_ajax">
                     <span class="input-group-text" id="basic-addon2">cari</span>
                 </div>
 
@@ -252,8 +253,8 @@
                                                         name="deskripsi"><?= $kegiatan['deskripsi'] ?></textarea>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <input type="hidden" class="form-control" id="username"
-                                                        name="username" value="<?= $_SESSION['login']; ?>">
+                                                    <input type="hidden" class="form-control" id="email" name="email"
+                                                        value="<?= $_SESSION['login']; ?>">
                                                 </div>
                                                 <div class="mb-3">
                                                     <input type="hidden" class="form-control" id="id" name="id"
@@ -309,7 +310,7 @@
                                         id="floatingTextarea2" style="height: 100px" name="deskripsi"></textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <input type="hidden" class="form-control" id="username" name="username"
+                                    <input type="hidden" class="form-control" id="email" name="email"
                                         value="<?= $_SESSION['login']; ?>">
                                 </div>
                         </div>
@@ -334,8 +335,7 @@
                 <form action="<?= base_url('cari_pengguna/index')  ?>" method="post">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="cari pengguna"
-                            aria-label="Recipient's username" aria-describedby="basic-addon2" id="cari_user"
-                            name="user">
+                            aria-label="Recipient's email" aria-describedby="basic-addon2" id="cari_user" name="user">
                         <button class="input-group-text" type="submit" id="basic-addon2">cari</button>
                 </form>
             </div>
@@ -355,8 +355,8 @@
                 https://images.unsplash.com/photo-1606946887361-78feb162a525?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm90b3xlbnwwfHwwfHw%3D&w=1000&q=80"
                 <h1 class="my-3 text-center gelap">cari kegiatan</h1>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Recipient's username"
-                        aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <input type="text" class="form-control" placeholder="Recipient's email"
+                        aria-label="Recipient's email" aria-describedby="basic-addon2">
                     <span class="input-group-text" id="basic-addon2">cari</span>
                 </div>
             </div>

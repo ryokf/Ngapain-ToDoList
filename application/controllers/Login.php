@@ -7,12 +7,13 @@ class Login extends CI_Controller
         parent::__construct();
 
         $this->load->model('kegiatan_model');
+        session_start();
     }
 
     public function index()
     {
         if(isset($_SESSION['login'])){
-            header("Location: " . base_url('home'));
+            header("Location: " . base_url());
         }
 
         $this->load->view('akun/login');
