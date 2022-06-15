@@ -19,7 +19,8 @@
 
 <body>
     <div class="changeMode">
-        <p>Mode (light)&nbsp;&nbsp;∨ </p>
+        <p id="ch">Mode(light)&nbsp;&nbsp;v </p>
+        <p id="ch">Mode(dark)&nbsp;&nbsp; </p>
     </div>
     <h1 class="text-center my-5">Ngapain!!</h1>
 
@@ -53,6 +54,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
     </script>
+    <script src="js/darkmode.js"></script>
 </body>
 
 </html>

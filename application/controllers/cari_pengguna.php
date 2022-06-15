@@ -22,10 +22,27 @@ class cari_pengguna extends CI_Controller
        
     }
 
-    // public function hal_default($username = '')
-    // {
-    //     $data['data_user'] = $this->kegiatan_model->cari_data_pengguna($username);
+    public function detail($id)
+    {
+        $data['detail'] = $this->kegiatan_model->detail_data_pengguna($id);
+        $data['email_user'] = $data['detail'][0]['email'];
+        $data['data_kegiatan'] = $this->kegiatan_model->detail_kegiatan_data_pengguna($data['email_user']);
 
-    //     $this->load->view('cari_user/default', $data);
-    // }
+        $data['jumlah_kegiatan'] = $this->kegiatan_model->jumlah_kegiatan_lain($data['email_user']);
+        $data['jumlah_mengikuti'] = $this->kegiatan_model->jumlah_mengikuti_lain($data['email_user']);
+        $data['jumlah_pengikut'] = $this->kegiatan_model->jumlah_pengikut_lain($data['email_user']);
+
+        $data['cek_ikut'] = $this->kegiatan_model->cek_ikut($data['email_user']);
+
+        $this->load->view('cari_user/detail_cari_user', $data);
+    }
+
+    public function mengikuti($id)
+    {
+        $this->kegiatan_model->data_mengikuti($_POST);
+        
+        header("Location: " . base_url('cari_pengguna/detail/') . $id);
+        
+        // var_dump($this->kegiatan_model->data_mengikuti($_POST));
+    }
 }

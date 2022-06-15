@@ -23,6 +23,7 @@ class Login extends CI_Controller
     {
         if( isset($_POST['submit']) ){
 
+        // $this->kegiatan_model->proses_login($_POST);  
             if( $this->kegiatan_model->proses_login($_POST) == true ){
                 header("Location: " . base_url());
             }

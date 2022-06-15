@@ -1,0 +1,12 @@
+.changeMode {
+    height: 20px;
+    width: 25%;
+    margin: 1% auto;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    /* border: 1px solid black; */
+    font-size: 10px;
+}
+.drkmode{
+    background-color: #333;
+    color: white;
+}

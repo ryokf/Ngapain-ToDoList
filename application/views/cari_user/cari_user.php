@@ -7,7 +7,7 @@
         <div class="card-body">
             <h5 class="card-title"><?= $user['username'] ?></h5>
             <p class="card-text card-text-profile"><?= $user['bio'] ?></p>
-            <a href="#" class="btn btn-primary btn-sm">Kunjungi</a>
+            <a href="<?= base_url('cari_pengguna/detail/') . $user['id'] ?>" class="btn btn-primary btn-sm">Kunjungi</a>
         </div>
     </div>
     <?php endforeach ?>

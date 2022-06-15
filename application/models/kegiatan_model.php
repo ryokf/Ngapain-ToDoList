@@ -55,9 +55,7 @@ class kegiatan_model extends CI_Controller
 
     #memproses login
     public function proses_login($data)
-    {
-        session_start();
-        
+    {   
         $email = $data['email'];
         $password = $data['password'];
 
@@ -67,20 +65,21 @@ class kegiatan_model extends CI_Controller
         if (!empty($result[0]['email'])) {
             #cek password
             if (password_verify($password, $result[0]['password'])) {
+                session_start();
                 $_SESSION['login'] = $email;
                 return true;
                 
-            } else {
+            } else {  
                 echo "<script>
                     alert('password salah')
                 </script>";
                 return false;
             }
         }else{
-             echo "<script>
-                    alert('email belum terdaftar')
-                </script>";
-                return false;
+            echo "<script>
+                alert('email belum terdaftar')
+            </script>";
+            return false;
         }
     }
 
@@ -88,7 +87,13 @@ class kegiatan_model extends CI_Controller
      public function proses_register($data)
     {
         $email = strtolower(stripslashes($data['email']));
-        $username = $email;
+        $username = explode('@', $email);
+        $username = $username[0];
+        //  if( $pribadi['username'] == $_SESSION['login'] ){
+        //         $pribadi['username'] = explode('@', $_SESSION['login']);
+        //         $pribadi['username'] = $pribadi['username'][0];
+        //         // var_dump($pribadi['username']);
+        //     } 
         $password = $data['password'];
         $password2 = $data['password2'];
 
@@ -132,6 +137,7 @@ class kegiatan_model extends CI_Controller
         $tanggal_deadline = $data['tanggal_deadline'];
         $waktu_deadline = $data['waktu_deadline'];
         $deskripsi = $data['deskripsi'];
+        $foto = $this->upload_foto_kegiatan();
 
         $tanggal_deadline = explode('-', $tanggal_deadline);
         $tanggal_deadline = array_reverse($tanggal_deadline);
@@ -143,12 +149,64 @@ class kegiatan_model extends CI_Controller
             'lokasi' => $lokasi,
             'tanggal_deadline' => $tanggal_deadline,
             'waktu_deadline' => $waktu_deadline,
-            'deskripsi' => $deskripsi
+            'deskripsi' => $deskripsi,
+            'foto' => $foto
         ];
 
         $this->db->insert('`todolist`', $tambah);
 
         return $this->db->affected_rows();
+    }
+
+    public function upload_foto_kegiatan()
+    {
+        $namaFile = $_FILES['foto_kegiatan']['name']; 
+        $ukuranFile = $_FILES['foto_kegiatan']['size'];
+        $error = $_FILES['foto_kegiatan']['error'];
+        $tmpName = $_FILES['foto_kegiatan']['tmp_name'];
+
+        #cek apakah file di upload
+        if( $error === 4 )
+        {
+            echo "<script>
+                    alert('pilih gambar terlebih dahulu')
+                  </script>";
+            return false;
+        }
+
+        #cek ekstensi file
+        $ekstensiValid = ['jpg', 'jpeg', 'png'];
+        $ekstensiFoto = explode('.', $namaFile);
+        $ekstensiFoto = end($ekstensiFoto);
+        $ekstensiFoto = strtolower($ekstensiFoto);
+        if( !in_array($ekstensiFoto, $ekstensiValid) )
+        {
+            echo "<script>
+                    alert('ekstensi file yg diijinkan adalah jpg, jpeg, png')
+                  </script>";
+            return false;
+        }
+
+        #cek ukuran file
+        if( $ukuranFile > 2000000 )
+        {
+            echo "<script>
+                    alert('ukuran file max adalah 2MB')
+                  </script>";
+            return false;
+        }
+
+        #upload gambar
+        // $namaFileBaru = uniqid();
+        // $namaFileBaru .= '.';
+        // $namaFileBaru .= $ekstensiFoto;
+        // session_start();
+        $namaFileBaru = uniqid();
+        $namaFileBaru .= '.';
+        $namaFileBaru .= $ekstensiFoto;
+        move_uploaded_file($tmpName, 'img/foto_kegiatan/' . $namaFileBaru);
+
+        return $namaFileBaru;
     }
 
     #mengubah data kegiatan yang sudah masuk di database
@@ -239,7 +297,14 @@ class kegiatan_model extends CI_Controller
         $username = $data['username'];
         $telp = $data['telp'];
         $bio = $data['bio'];
-        $foto = $this->upload_pp_user();
+
+        $fotoLama = $data['fotoLama'];
+        
+        if ($_FILES['foto']['error'] === 4) {
+            $foto = $fotoLama;
+        } else {
+            $foto = $this->upload_pp_user();
+        }
 
         // if( $foto = null ){
         //     return false;
@@ -309,5 +374,137 @@ class kegiatan_model extends CI_Controller
         move_uploaded_file($tmpName, 'img/pp_user/' . $namaFileBaru);
 
         return $namaFileBaru;
+    }
+
+    public function detail_data_pengguna($id)
+    {
+        return $this->db->where('id', $id)->get('`user`')->result_array();
+    }
+
+    public function detail_kegiatan_data_pengguna($email)
+    {
+        return $this->db->where('email', $email)->where('visibilitas', 'public')->get('`todolist`')->result_array();
+    }
+
+    public function ubah_visibilitas_ke_public($id)
+    {
+        $ubah = [
+            'visibilitas' => 'public',
+        ];
+
+        $this->db->where('id', $id)->update('`todolist`', $ubah);
+
+        return $this->db->affected_rows();
+    }
+
+    public function ubah_visibilitas_ke_private($id)
+    {
+        $ubah = [
+            'visibilitas' => 'private',
+        ];
+
+        $this->db->where('id', $id)->update('`todolist`', $ubah);
+
+        return $this->db->affected_rows();
+    }
+
+    public function data_beranda()
+    {
+        $daftar_mengikuti = $this->db->where('email', $_SESSION['login'])->get('`mengikuti_tdl`')->result_array();
+
+        // if( $daftar_mengikuti = [] ){
+        //     return false;
+        // }
+
+        foreach($daftar_mengikuti as $mengikuti){
+            $this->db->or_where('email', $mengikuti['mengikuti']);
+        }
+
+        $this->db->or_where('email', $_SESSION['login']);
+
+
+        return $this->db->where('visibilitas', 'public')->order_by('tanggal', 'DESC')->get('`todolist`')->result_array();
+
+        // return $this->db->where('visibilitas', 'public')->order_by('tanggal', 'DESC')->get('`todolist`')->result_array();
+    }
+
+    public function data_beranda_cocok()
+    {
+        return $this->db->select('username')->select('email')->select('foto')->get('`user`')->result_array();
+    }
+
+    public function data_mengikuti($data)
+    {
+        $diri = $data['diri_sendiri'];
+        $lain = $data['pengguna_lain'];
+
+        $cek_email = $this->db->select('email')->select('mengikuti')->get('`mengikuti_tdl`')->result_array();
+
+        foreach($cek_email as $cek)
+        {
+            if( $cek['email'] == $diri && $cek['mengikuti'] == $lain ){
+                $this->db->delete('`mengikuti_tdl`', ['email' => $diri, 'mengikuti' => $lain]);
+                $this->db->delete('`pengikut_tdl`', ['email' => $lain]);
+                return false;
+            }
+        }
+
+        $ikut = [
+            'email' => $diri,
+            'mengikuti' => $lain
+        ];
+
+        $diikuti = [
+            'email' => $lain,
+            'diikuti' => $diri
+        ];
+
+        $this->db->insert('`mengikuti_tdl`', $ikut);
+
+        $this->db->insert('`pengikut_tdl`', $diikuti);
+
+        return $this->db->affected_rows();
+
+        //  $this->db->insert('`user`', $data);
+    }
+
+    public function jumlah_pengikut()
+    {
+        return $this->db->select('email')->where('email', $_SESSION['login'])->get('`mengikuti_tdl`')->num_rows();
+    }
+
+    public function jumlah_mengikuti_diri()
+    {
+        return $this->db->select('email')->where('email', $_SESSION['login'])->get('`mengikuti_tdl`')->num_rows();
+    }
+
+    public function jumlah_pengikut_diri()
+    {
+        return $this->db->select('mengikuti')->where('mengikuti', $_SESSION['login'])->get('`mengikuti_tdl`')->num_rows();
+    }
+
+    public function jumlah_kegiatan_diri()
+    {
+        return $this->db->where('email', $_SESSION['login'])->get('`todolist`')->num_rows();
+    }
+
+    public function jumlah_kegiatan_lain($email_lain)
+    {
+        return $this->db->where('email', $email_lain)->get('`todolist`')->num_rows();
+    }
+
+    public function jumlah_mengikuti_lain($email_lain)
+    {
+        return $this->db->select('email')->where('email', $email_lain)->get('`mengikuti_tdl`')->num_rows();
+    }
+
+    public function jumlah_pengikut_lain($email_lain)
+    {
+        return $this->db->select('mengikuti')->where('mengikuti', $email_lain)->get('`mengikuti_tdl`')->num_rows();
+    }
+
+    public function cek_ikut()
+    {
+        return $this->db->get('`mengikuti_tdl`')->result_array();
     }
 }

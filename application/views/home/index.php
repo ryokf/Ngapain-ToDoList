@@ -8,13 +8,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+    .foto-kegiatan {
+        width: 200px;
+        height: 135px;
+        object-fit: cover;
+    }
+    </style>
 </head>
 
 <body class="gelap">
 
     <!-- NAVBAR=============================================================================================================== -->
 
-    <nav class="navbar bg-light">
+    <nav class="navbar bg-light fixed-top">
         <div class="container d-flex justify-content-between">
             <span class="navbar-brand mb-0 h1">To Do List</span>
 
@@ -89,6 +96,8 @@
         </div>
     </nav>
 
+    <div class="py-4"></div>
+
     <!-- AKHIR NAVBAR ===========================================================================================================-->
 
     <?php 
@@ -130,7 +139,6 @@
     <div id="carouselExampleControls" class="carousel slide" data-bs-touch="true" data-bs-interval="false">
 
         <!-- DAFTAR KEGIATAN====================================================================================================== -->
-
         <div class="carousel-item active">
 
             <div class="container my-4">
@@ -181,6 +189,7 @@
                             <div id="collapseTwo<?= $kegiatan['id'] ?>" class="accordion-collapse collapse"
                                 aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
+                                    <img src="img/foto_kegiatan/<?= $kegiatan['foto'] ?>" alt="" class="foto-kegiatan">
                                     <p><b>nama kegiatan: <?= $kegiatan['kegiatan'] ?></b></p>
                                     <p>lokasi : <?= $kegiatan['lokasi'] ?></p>
                                     <p>waktu :
@@ -189,10 +198,51 @@
                                     <p>deskripsi : <?= $kegiatan['deskripsi'] ?></p>
                                     <span class="d-flex">
                                         <!-- edit dan hapus -->
-                                        <a href="<?= base_url('home/hapus') . '/' . $kegiatan['id'] ?>"
-                                            class="btn btn-danger btn-sm mx-1">hapus</a>
+                                        <a type="button" class="btn btn-danger btn-sm mx-1" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModalHapus"><svg xmlns="http://www.w3.org/2000/svg"
+                                                width="16" height="16" fill="currentColor" class="bi bi-trash3"
+                                                viewBox="0 0 16 16">
+                                                <path
+                                                    d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                                            </svg></a>
                                         <a href="" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdrop<?= $kegiatan['id'] ?>">edit</a>
+                                            data-bs-target="#staticBackdrop<?= $kegiatan['id'] ?>"><svg
+                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                <path fill-rule="evenodd"
+                                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                            </svg></a>
+                                        <!-- Modal hapus-->
+                                        <div class="modal fade" id="exampleModalHapus" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <!-- <div class="modal-header">
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div> -->
+                                                    <div class="modal-body">
+                                                        yakin ingin menghapus data?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">batal</button>
+                                                        <a class="btn btn-danger"
+                                                            href="<?= base_url('home/hapus') . '/' . $kegiatan['id'] ?>">yakin</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- visibilitas -->
+                                        <?php if( $kegiatan['visibilitas'] == 'public' ): ?>
+                                        <a class="btn btn-sm bg-success mx-1 text-white"
+                                            href="<?= base_url('home/visibilitas_ke_private/') ?><?= $kegiatan['id'] ?>">public</a>
+                                        <?php else: ?>
+                                        <a class="btn btn-sm bg-danger mx-1 text-white"
+                                            href="<?= base_url('home/visibilitas_ke_public/') ?><?= $kegiatan['id'] ?>">private</a>
+                                        <?php endif ?>
                                         <!-- status  -->
                                         <?php if( $kegiatan['sudah'] == 'true' ): ?>
                                         <a class="btn btn-sm bg-success mx-1 text-white"
@@ -237,7 +287,7 @@
                                                         value="<?= $kegiatan['lokasi'] ?>">
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="" class="form-label">deadline</label>
+                                                    <label for="" class="form-label">waktu</label>
                                                     <input type="date" class="form-control" id="deadline"
                                                         name="tanggal_deadline"
                                                         value="<?= $kegiatan['tanggal_deadline'] ?>">
@@ -289,7 +339,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="<?= base_url('home/tambah/') ?>" method="post">
+                            <form action="<?= base_url('home/tambah/') ?>" method="post" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Kegiatan</label>
                                     <input type="text" class="form-control" id="nama" name="nama" maxlength="20">
@@ -300,14 +350,20 @@
                                     <input type="text" class="form-control" id="lokasi" name="lokasi">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="" class="form-label">deadline</label>
+                                    <label for="" class="form-label">waktu</label>
                                     <input type="date" class="form-control" id="deadline" name="tanggal_deadline">
                                     <input type="time" class="form-control" id="deadline" name="waktu_deadline">
+                                    <div id="emailHelp" class="form-text">harap masukkan waktu dengan benar, karena
+                                        sistem akan menghapus data setelah 1 hari terlewat</div>
                                 </div>
                                 <label for="floatingTextarea2">deskripsi kegiatan</label>
-                                <div class="form-floating">
+                                <div class="form-floating mb-3">
                                     <textarea class="form-control my-1" placeholder="Leave a comment here"
                                         id="floatingTextarea2" style="height: 100px" name="deskripsi"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="foto" class="form-label">foto</label>
+                                    <input type="file" class="form-control" id="foto" name="foto_kegiatan" required>
                                 </div>
                                 <div class="mb-3">
                                     <input type="hidden" class="form-control" id="email" name="email"
@@ -343,10 +399,10 @@
             <div id="container_cari_pengguna">
                 <h1 class="display-4 text-center my-5">cari pengguna lain untuk melakukan kegiatan bersama</h1>
             </div>
-
         </div>
 
     </div>
+
 
     <!-- PENCARIAN ==========================================================================================================-->
 
@@ -366,19 +422,40 @@
 
         </div>-->
 
-    <div class="carousel-item">
+    <div class="carousel-item my-3">
 
-        <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+        <div class="container d-flex justify-content-center flex-wrap">
+
+            <?php foreach($data_beranda as $beranda ): ?>
+            <div class="card my-2" style="width: 100%;">
+                <div class="my-2 mx-3">
+                    <?php foreach($data_cocok as $cocok ): ?>
+                    <?php if( $beranda['email'] == $cocok['email'] ): ?>
+                    <?php $foto_cocok = $cocok['foto'] ?>
+                    <img src="img/pp_user/<?= $foto_cocok ?>" alt=""
+                        style="border-radius: 50%; width: 30px; height: 30px">
+                    <?php $username_cocok = $cocok['username'] ?>
+                    <span><?= $username_cocok ?></span>
+                    <?php endif ?>
+                    <?php endforeach; ?>
+                </div>
+                <img src="img/foto_kegiatan/<?= $beranda['foto'] ?>" class="card-img-top" alt="..."
+                    style="border-radius: 0;">
+                <div class="card-body">
+                    <h5 class="card-title"><?= $beranda['kegiatan'] ?></h5>
+                    <p class="card-text"><?= $beranda['deskripsi'] ?></p>
+                </div>
             </div>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="my-5">
+
         </div>
 
     </div>
+
+
 
     <div class="carousel-item">
         <div class="d-flex justify-content-center align-content-center my-5 py-5">
@@ -391,6 +468,7 @@
             <h1 class="display-2">segera hadir</h1>
         </div>
     </div>
+
 
 
 

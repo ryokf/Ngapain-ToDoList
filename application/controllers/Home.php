@@ -19,6 +19,9 @@ class Home extends CI_Controller
         $data['data_kegiatan'] = $this->kegiatan_model->get_data($_SESSION['login']);
         $data['data_gelap'] = $this->kegiatan_model->get_data_gelap($_SESSION['login']);
 
+        $data['data_beranda'] = $this->kegiatan_model->data_beranda();
+        $data['data_cocok'] = $this->kegiatan_model->data_beranda_cocok();
+
         // if( $data['data_kegiatan'] == [] ){
         //     $this->load->view('home/default', $data);
         // }
@@ -67,8 +70,12 @@ class Home extends CI_Controller
         $data['data_kegiatan'] = $this->kegiatan_model->cari_data($keyword);
         $data['data_gelap'] = $this->kegiatan_model->get_data_gelap($_SESSION['login']);
 
+        $data_default['data_pribadi'] = $this->kegiatan_model->get_data_pribadi($_SESSION['login']);
+        $data_default['data_kegiatan'] = $this->kegiatan_model->get_data($_SESSION['login']);
+        $data_default['data_gelap'] = $this->kegiatan_model->get_data_gelap($_SESSION['login']);
+
         if( $data['data_kegiatan'] == [] ){
-            $this->load->view('home/default', $data);
+            $this->load->view('home/default', $data_default);
         }
         else{
             $this->load->view('home/cari_kegiatan', $data);
@@ -87,6 +94,20 @@ class Home extends CI_Controller
     public function belum_selesai($id)
     {
         if( $this->kegiatan_model->kegiatan_belum_selesai($id) > 0 ){
+            header("Location: " . base_url('home'));
+        }
+    }
+
+    public function visibilitas_ke_public($id)
+    {
+        if( $this->kegiatan_model->ubah_visibilitas_ke_public($id) > 0 ){
+            header("Location: ". base_url('home'));
+        }
+    }
+
+    public function visibilitas_ke_private($id)
+    {
+        if( $this->kegiatan_model->ubah_visibilitas_ke_private($id) > 0 ){
             header("Location: " . base_url('home'));
         }
     }
