@@ -18,21 +18,21 @@ input_ajax.addEventListener('keyup', function(){
 })
 
 
-let input_cari_user = document.getElementById('cari_user')
-let container_cari_user = document.getElementById('container_cari_pengguna')
+// let input_cari_user = document.getElementById('cari_user')
+// let container_cari_user = document.getElementById('container_cari_pengguna')
 
-// container_cari_user.innerHTML = 'hai'
+// // container_cari_user.innerHTML = 'hai'
 
-input_cari_user.addEventListener('keyup', function(){
+// input_cari_user.addEventListener('keyup', function(){
 
-    let xhr = new XMLHttpRequest()
+//     let xhr = new XMLHttpRequest()
 
-    xhr.onreadystatechange = function(){
-        if( xhr.readyState == 4 && xhr.status == 200 ){
-            container_cari_user.innerHTML = xhr.response
-        }
-    }
+//     xhr.onreadystatechange = function(){
+//         if( xhr.readyState == 4 && xhr.status == 200 ){
+//             container_cari_user.innerHTML = xhr.response
+//         }
+//     }
 
-    xhr.open('post', base_url + 'cari_pengguna/index/' + input_cari_user.value, true)
-    xhr.send()
-})
+//     xhr.open('post', base_url + 'cari_pengguna/index/' + input_cari_user.value, true)
+//     xhr.send()
+// })

@@ -6,13 +6,14 @@ class Home extends CI_Controller
     {
         parent::__construct();
         $this->load->model('kegiatan_model');
+        $this->kegiatan_model->kadaluwarsa();
         session_start();
     }
 
     public function index()
     {
         if(!isset($_SESSION['login'])){
-            header("Location: " . base_url('login'));
+            header("Location: " . base_url('Login'));
         }
 
         $data['data_pribadi'] = $this->kegiatan_model->get_data_pribadi($_SESSION['login']);
@@ -34,7 +35,7 @@ class Home extends CI_Controller
 
     public function coba()
     {
-        echo '<h1>hallo</h1>';
+        // $this->kegiatan_model->kadaluwarsa();
     }
 
     public function mode_gelap()
@@ -46,10 +47,10 @@ class Home extends CI_Controller
 
     public function tambah()
     {
-        if( $this->kegiatan_model->tambah_data($_POST) > 0 ){
-            header("Location: " . base_url('home'));
-        }
+        $this->kegiatan_model->tambah_data($_POST);
+        header("Location: " . base_url('home'));
     }
+
 
     public function hapus($id)
     {

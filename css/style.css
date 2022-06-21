@@ -38,16 +38,16 @@
      font-size: 11px;
  }
 
- .logout {
-     /* position: absolute;
+/* .logout {
+      position: absolute;
      display: flex;
      align-items: center;-------
      justify-content: center;
      bottom: 30px;
      right: 0;
-     left: 0; */
+     left: 0; 
+}*/
 
-}
 .logout a {
     height: 35px;
     width: 13rem;
@@ -65,12 +65,12 @@
     height: 80px !important;
 }
 
-.wadah-img-card{
-    /* width: 100%;
+/*.wadah-img-card{
+     width: 100%;
     height: 100px;
     overflow:hidden;
-    object-fit:contain; */
-}
+    object-fit:contain; 
+}*/
 
 .card-text-profile{
     font-size: 12px !important;

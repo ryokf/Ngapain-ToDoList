@@ -20,16 +20,82 @@
         left: 0;
         bottom: 0;
     }
+
+    input,
+    textarea {
+        background-color: #333 !important;
+        color: white !important;
+    }
+
+    .no-border {
+        border: none !important;
+    }
+
+    .bg-krem {
+        background-color: #ECC488;
+    }
+
+    .bg-merah {
+        background-color: #ED6663;
+    }
+
+    .bg-lavender {
+        background-color: #6A67CE;
+    }
+
+    .bg-oren {
+        background-color: #FFA500;
+    }
+
+    .bg-ijo {
+        background-color: #5FD068;
+    }
+
+    .bg-abu {
+        background-color: #333;
+        border: none !important;
+    }
+
+    .bg-ungu-gelap {
+        background-color: #4C3575;
+        border: none !important;
+    }
+
+    .bg-hitam {
+        background-color: black;
+    }
+
+    * {
+        color: white;
+        border: none !important;
+    }
+
+    p {
+        font-size: 11px;
+        text-align: center;
+    }
+
+    .link-register {
+        position: absolute;
+        right: 0;
+        left: 0;
+        bottom: 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: #6A67CE;
+    }
     </style>
 
 </head>
 
-<body>
+<body class="bg-hitam">
     <div class="changeMode">
-        <p id="ch">Mode(light)&nbsp;&nbsp;v </p>
-        <p id="ch">Mode(dark)&nbsp;&nbsp; </p>
+        <p id="ch" class="text-dark">Mode(light)&nbsp;&nbsp;v </p>
+        <p id="ch" class="text-dark">Mode(dark)&nbsp;&nbsp; </p>
     </div>
-    <h1 class="text-center mt-5">Buat password Anda</h1>
+    <h1 class="text-center mt-5 text-white">Buat password Anda</h1>
 
     <p class="text-center mt-3">Usahakan Password anda sulit ditebak orang lain, jangan gunakan informasi pribadi
         sebagai password</p>
@@ -54,7 +120,7 @@
                 <input type="password" class="form-control" id="password2" name="password2">
             </div>
             <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary" name="submit">login sekarang</button>
+                <button type="submit" class="btn btn-dark text-white bg-lavender" name="submit">login sekarang</button>
             </div>
         </form>
         <p class="my-3 link-register">sudah punya akun?, silahkan masuk melalui link ini <a class="my-3"

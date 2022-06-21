@@ -56,7 +56,8 @@ class kegiatan_model extends CI_Controller
     #memproses login
     public function proses_login($data)
     {   
-        $email = $data['email'];
+        $email = strtolower($data['email']);
+        $email = str_replace(' ', '', $email);
         $password = $data['password'];
 
         $result = $this->db->where('email', $email)->get('`user`')->result_array();
@@ -87,13 +88,11 @@ class kegiatan_model extends CI_Controller
      public function proses_register($data)
     {
         $email = strtolower(stripslashes($data['email']));
+        $email = str_replace(' ', '', $email);
+        
         $username = explode('@', $email);
         $username = $username[0];
-        //  if( $pribadi['username'] == $_SESSION['login'] ){
-        //         $pribadi['username'] = explode('@', $_SESSION['login']);
-        //         $pribadi['username'] = $pribadi['username'][0];
-        //         // var_dump($pribadi['username']);
-        //     } 
+
         $password = $data['password'];
         $password2 = $data['password2'];
 
@@ -131,6 +130,11 @@ class kegiatan_model extends CI_Controller
     #memasukkan kegiatan yang dibuat user ke database
     public function tambah_data($data)
     {
+        if( strtotime($data['tanggal_deadline']) <= (time() + 43200) ){
+            // header("Location: " . base_url('home'));
+            return false;
+        }
+
         $kegiatan = $data['nama'];
         $email = $data['email'];
         $lokasi = $data['lokasi'];
@@ -156,6 +160,25 @@ class kegiatan_model extends CI_Controller
         $this->db->insert('`todolist`', $tambah);
 
         return $this->db->affected_rows();
+    }
+
+    public function kadaluwarsa()
+    {
+        $kegiatan = $this->db->get('todolist')->result_array();
+
+        foreach( $kegiatan as $tanggal ){
+        $tanggal['tanggal_deadline'] = explode('-', $tanggal['tanggal_deadline']);
+        $tanggal['tanggal_deadline'] = array_reverse($tanggal['tanggal_deadline']);
+        $tanggal['tanggal_deadline'] = join('-', $tanggal['tanggal_deadline']);
+        $tanggal_kegiatan = strtotime($tanggal['tanggal_deadline']);
+        
+        $waktu_habis = time() + 43200;
+
+            if( $tanggal_kegiatan <= $waktu_habis ){
+                $this->db->delete('`todolist`', ['id' => $tanggal['id']]);
+                // $this->db->where('id', $tanggal['id'])->update('`todolist`', ['kegiatan' => 'waktu sudah lewat']);
+            }
+        }
     }
 
     public function upload_foto_kegiatan()
@@ -376,16 +399,19 @@ class kegiatan_model extends CI_Controller
         return $namaFileBaru;
     }
 
+    #fungsi untuk melihat profile user lain
     public function detail_data_pengguna($id)
     {
         return $this->db->where('id', $id)->get('`user`')->result_array();
     }
 
+    #fungsi untuk melihat kegiatan user lain
     public function detail_kegiatan_data_pengguna($email)
     {
         return $this->db->where('email', $email)->where('visibilitas', 'public')->get('`todolist`')->result_array();
     }
 
+    #fungsi untuk mengubah visibilitas kegiatan ke public
     public function ubah_visibilitas_ke_public($id)
     {
         $ubah = [
@@ -397,6 +423,7 @@ class kegiatan_model extends CI_Controller
         return $this->db->affected_rows();
     }
 
+#fungsi untuk mengubah visibilitas kegiatan ke public
     public function ubah_visibilitas_ke_private($id)
     {
         $ubah = [
@@ -408,6 +435,7 @@ class kegiatan_model extends CI_Controller
         return $this->db->affected_rows();
     }
 
+    #fungsi untuk mendapat data untuk ditampilkan di beranda
     public function data_beranda()
     {
         $daftar_mengikuti = $this->db->where('email', $_SESSION['login'])->get('`mengikuti_tdl`')->result_array();
@@ -428,11 +456,13 @@ class kegiatan_model extends CI_Controller
         // return $this->db->where('visibilitas', 'public')->order_by('tanggal', 'DESC')->get('`todolist`')->result_array();
     }
 
+    #fungsi untuk mencocokkan data pada table user dan todolist untuk beranda
     public function data_beranda_cocok()
     {
-        return $this->db->select('username')->select('email')->select('foto')->get('`user`')->result_array();
+        return $this->db->select('id')->select('username')->select('email')->select('foto')->get('`user`')->result_array();
     }
 
+    #fungsi untuk melihat siapa saja yang mengikuti kita
     public function data_mengikuti($data)
     {
         $diri = $data['diri_sendiri'];
@@ -468,43 +498,95 @@ class kegiatan_model extends CI_Controller
         //  $this->db->insert('`user`', $data);
     }
 
+    #fungsi untuk mnghitung jumlah mengikuti kita
     public function jumlah_pengikut()
     {
         return $this->db->select('email')->where('email', $_SESSION['login'])->get('`mengikuti_tdl`')->num_rows();
     }
 
+    #fungsi untuk mnghitung jumlah mengikuti kita
     public function jumlah_mengikuti_diri()
     {
         return $this->db->select('email')->where('email', $_SESSION['login'])->get('`mengikuti_tdl`')->num_rows();
     }
 
+    #fungsi untuk mnghitung jumlah pengikut kita
     public function jumlah_pengikut_diri()
     {
         return $this->db->select('mengikuti')->where('mengikuti', $_SESSION['login'])->get('`mengikuti_tdl`')->num_rows();
     }
 
+    #fungsi untuk mnghitung jumlah kegiatan kita
     public function jumlah_kegiatan_diri()
     {
         return $this->db->where('email', $_SESSION['login'])->get('`todolist`')->num_rows();
     }
 
+    #fungsi untuk mnghitung jumlah kegiatan user lain
     public function jumlah_kegiatan_lain($email_lain)
     {
         return $this->db->where('email', $email_lain)->get('`todolist`')->num_rows();
     }
 
+    #fungsi untuk mnghitung jumlah mengikuti user lain
     public function jumlah_mengikuti_lain($email_lain)
     {
         return $this->db->select('email')->where('email', $email_lain)->get('`mengikuti_tdl`')->num_rows();
     }
 
+    #fungsi untuk mnghitung jumlah pengikut user lain
     public function jumlah_pengikut_lain($email_lain)
     {
         return $this->db->select('mengikuti')->where('mengikuti', $email_lain)->get('`mengikuti_tdl`')->num_rows();
     }
 
+    #fungsi untuk mencocokkan peng lain
     public function cek_ikut()
     {
         return $this->db->get('`mengikuti_tdl`')->result_array();
+    }
+
+    #fungsi untuk mengetahui siapa yang kita ikuti
+    public function data_daftar_mengikuti_diri()
+    {
+        return $this->db->select('mengikuti')->where('email', $_SESSION['login'])->get('`mengikuti_tdl`')->result_array();
+    }
+
+    #fungsi untuk mengetahui siapa pengikut kita
+    public function data_daftar_pengikut_diri()
+    {
+        return $this->db->select('email')->where('mengikuti', $_SESSION['login'])->get('`mengikuti_tdl`')->result_array();
+    }
+
+    #fungsi untuk komen di beranda
+    public function data_komen_beranda($id, $kegiatan)
+    {
+
+        return $this->db->where('id', $id)->where('kegiatan', $kegiatan)->get('`todolist`')->result_array();
+
+        // return $this->db->where('visibilitas', 'public')->order_by('tanggal', 'DESC')->get('`todolist`')->result_array();
+    }
+
+    public function daftar_komen_kegiatan($id, $kegiatan)
+    {
+        return $this->db->where('kegiatan', $id . '-' . $kegiatan)->get('`komen`')->result_array();
+    }
+
+    #fungsi untuk menambah komen di beranda
+    public function tambah_data_komen($data)
+    {
+        $id_kegiatan = $data['id_kegiatan'];
+        $pengirim = $data['pengirim'];
+        $isi = $data['isi_komen'];
+
+         $tambah = [
+            'kegiatan' => $id_kegiatan,
+            'isi' => $isi,
+            'peng_komen' => $pengirim
+        ];
+
+        $this->db->insert('`komen`', $tambah);
+
+        return $this->db->affected_rows();
     }
 }
